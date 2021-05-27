@@ -5,46 +5,19 @@ import 'firebase/auth';
 import 'firebase/firestore';
 
 export default class Firebase {
+  auth = firebase.auth();
+
+  firestore = firebase.firestore();
+
   constructor() {
     this.user = null;
   }
-
- auth = firebase.auth();
-
-firestore = firebase.firestore();
-
-checkIfAdminExist = async (user) => {
-  const userRef = this.firestore.doc(`admins/${user.email}`);
-  const snapshot = await userRef.get();
-  return snapshot.exists;
-};
-
-  signIn = () => {
-    this.onSignInChanged(true);
-  }
-
-  signOut = () => {
-    this.auth.signOut();
-  }
-
-  getConfig = () => (
-    {
-      signInFlow: 'popup',
-      signInOptions: [
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      ],
-      callbacks: {
-        signInSuccess: () => false,
-      },
-    }
-  )
 
   setSignInListener = (onSignInChanged, onSignInFailed) => {
     console.log(this.auth, this.firestore);
     this.onSignInChanged = onSignInChanged;
     this.onSignInFailed = onSignInFailed;
     this.auth.onAuthStateChanged(async (user) => {
-      console.log('user is ', user);
       if (!user) {
         this.onSignInChanged(null);
         return null;
@@ -57,17 +30,11 @@ checkIfAdminExist = async (user) => {
         firebase.auth().signOut();
       }
       return null;
-      // if (this.state.isSignedIn && this.state.isValidAdmin) {
-      //   const allUsers = await getAllUsersData()
-
-      //   const allCylinders = await getAllCylindersData()
-      //   const allCitizens =  await getAllCitizens()
-
-      //   const cylinderData = getCyclinderTableData(  allUsers,   allCylinders,   allCitizens)
-      //   console.log("cyclinder data for table is ", cylinderData)
-      //   this.setState({ data:cylinderData})
-      // }
     });
+  }
+
+  signOut = () => {
+    this.auth.signOut();
   }
 
   getUser = () => ({
@@ -75,6 +42,12 @@ checkIfAdminExist = async (user) => {
     email: this.auth.currentUser.email,
     avatarUrl: this.auth.currentUser.photoURL,
   })
+
+  checkIfAdminExist = async (user) => {
+    const userRef = this.firestore.doc(`admins/${user.email}`);
+    const snapshot = await userRef.get();
+    return snapshot.exists;
+  };
 
   checkIfUserExist = async (phoneNo) => {
     const userRef = this.firestore.doc(`users/${phoneNo}`);
@@ -91,5 +64,14 @@ checkIfAdminExist = async (user) => {
     } catch (error) {
       console.log('Error in creating user', error);
     }
+  }
+
+  fetchUsers = async () => {
+  }
+
+  fetchCylinders = async () => {
+  }
+
+  fetchCustomers = async () => {
   }
 }

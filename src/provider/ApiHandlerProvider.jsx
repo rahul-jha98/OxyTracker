@@ -3,13 +3,13 @@ import ApiHandlerContext from './ApiHandlerContext';
 
 const ApiHandlerProvider = (props) => {
   const {
-    firebaseHandler, showToast,
+    firebaseHandler, showToast, databaseHandler,
   } = props;
 
   return (
     <ApiHandlerContext.Provider
       value={{
-        firebaseHandler, showToast,
+        firebaseHandler, showToast, databaseHandler,
       }}
     >
       {props.children}

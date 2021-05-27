@@ -5,7 +5,7 @@ import ApiHandlerContext from '../../provider/ApiHandlerContext';
 
 export default ({ selectedTab }) => {
   const { firebaseHandler } = React.useContext(ApiHandlerContext);
-  if (selectedTab === 2) {
+  if (selectedTab === 3) {
     return <AddEntityScreen firebaseHandler={firebaseHandler} />;
   }
   return null;

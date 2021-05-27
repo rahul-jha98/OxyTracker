@@ -6,9 +6,11 @@ import Snackbar from '@material-ui/core/Snackbar';
 import { StyledFirebaseAuth } from 'react-firebaseui';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import firebase from 'firebase/app';
+
 import MainApp from './MainApp';
 import ApiHandlerProvider from './provider/ApiHandlerProvider';
 import Firebase from './Firebase';
+import Database from './Database';
 
 firebase.initializeApp({
   apiKey: 'AIzaSyCbGWlv_6igZpLGLQLGx5wKr1Ufd6Lv0ZI',
@@ -64,7 +66,6 @@ class App extends React.Component {
   componentDidMount = () => {
     this.firebase.setSignInListener(
       (user) => {
-        console.log(user);
         this.setState({ user });
       },
       (errorMessage) => {
@@ -86,11 +87,11 @@ class App extends React.Component {
       </div>
     );
     if (user) {
-      console.log('logged in ', user);
       screen = (
         <ApiHandlerProvider
           firebaseHandler={this.firebase}
           showToast={(message) => this.setState({ toast: message })}
+          databaseHandler={new Database(this.firebase)}
         >
           <MainApp />
         </ApiHandlerProvider>
