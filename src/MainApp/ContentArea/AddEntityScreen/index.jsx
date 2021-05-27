@@ -42,7 +42,7 @@ const roles = [
   { name: 'Supplier' },
 ];
 
-export default () => {
+export default ({ firebaseHandler }) => {
   const classes = useStyles();
   const [entity, setEntity] = React.useState(defaultEntityState);
   const [phoneError, setPhoneError] = React.useState('');
@@ -59,7 +59,7 @@ export default () => {
     setIsDisabled(false);
   }, []);
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     let error = false;
     if (entity.role === '') {
       setRoleError('You must select a role for the entity');
@@ -84,13 +84,19 @@ export default () => {
     }
 
     if (!error) {
+      setIsDisabled(true);
       const { phoneNo, ...payload } = entity;
       payload.canExit = !!roles.filter((val) => val.name === payload.role)[0].canExit;
-      // console.log(phoneNo);
-      // console.log(payload);
-      // check karna hai ki kya firebase pe entity.phoneNumber exist karta hai
-      // if nahi toh push kar do
-      // else error set kar do
+      payload.cylinders = [];
+      const doesUserExist = await firebaseHandler.checkIfUserExist(phoneNo);
+      if (doesUserExist) {
+        setPhoneError('User with given phone number has already been added');
+        setIsDisabled(false);
+      } else {
+        await firebaseHandler.addUser(phoneNo, payload);
+        setIsDisabled(false);
+        setEntity(defaultEntityState);
+      }
     }
   };
 
@@ -149,6 +155,7 @@ export default () => {
       </FormControl>
       <div style={{ display: 'flex', justifyContent: 'flexEnd' }}>
         <Button
+          disabled={isDisabled}
           className={classes.marginTop4}
           variant="contained"
           color="secondary"

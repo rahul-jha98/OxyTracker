@@ -14,7 +14,7 @@ export default class Firebase {
 firestore = firebase.firestore();
 
 checkIfAdminExist = async (user) => {
-  const userRef = this.firestore.doc(`admins/${user.uid}`);
+  const userRef = this.firestore.doc(`admins/${user.email}`);
   const snapshot = await userRef.get();
   return snapshot.exists;
 };
@@ -76,5 +76,20 @@ checkIfAdminExist = async (user) => {
     avatarUrl: this.auth.currentUser.photoURL,
   })
 
-  addUser = (phoneNo, payload) => ({ phoneNo: payload })
+  checkIfUserExist = async (phoneNo) => {
+    const userRef = this.firestore.doc(`users/${phoneNo}`);
+    const snapshot = await userRef.get();
+    return snapshot.exists;
+  };
+
+  addUser = async (phoneNo, payload) => {
+    const userRef = this.firestore.doc(`users/${phoneNo}`);
+    try {
+      await userRef.set(
+        payload,
+      );
+    } catch (error) {
+      console.log('Error in creating user', error);
+    }
+  }
 }
