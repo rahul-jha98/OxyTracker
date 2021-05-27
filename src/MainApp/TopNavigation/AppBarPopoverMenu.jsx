@@ -7,40 +7,42 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 
 export default ({
-  anchorEl, handlePopoverClose,
-}) => (
+  anchorEl, handlePopoverClose, firebaseHandler,
+}) => {
+  const user = firebaseHandler.getUser();
+  return (
+    <Popover
+      id="mouse-over-popover"
+      open={anchorEl}
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      onClose={handlePopoverClose}
+      disableRestoreFocus
+    >
 
-  <Popover
-    id="mouse-over-popover"
-    open={anchorEl}
-    anchorEl={anchorEl}
-    anchorOrigin={{
-      vertical: 'bottom',
-      horizontal: 'right',
-    }}
-    transformOrigin={{
-      vertical: 'top',
-      horizontal: 'right',
-    }}
-    onClose={handlePopoverClose}
-    disableRestoreFocus
-  >
-
-    <CardHeader
-      avatar={
-        <Avatar aria-label="recipe" src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png" />
+      <CardHeader
+        avatar={
+          <Avatar aria-label="image" src={user.avatarUrl} />
       }
-      title="Rahul Jha"
-      subheader="jharahul1998@gmail.com"
-    />
+        title={user.name}
+        subheader={user.email}
+      />
 
-    <MenuItem onClick={handlePopoverClose}>
-      <ListItemText primary="Add Admin" />
-    </MenuItem>
+      <MenuItem onClick={handlePopoverClose}>
+        <ListItemText primary="Add Admin" />
+      </MenuItem>
 
-    <MenuItem>
-      <ListItemText primary="Logout" />
-    </MenuItem>
+      <MenuItem onClick={firebaseHandler.signOut}>
+        <ListItemText primary="Logout" />
+      </MenuItem>
 
-  </Popover>
-);
+    </Popover>
+  );
+};

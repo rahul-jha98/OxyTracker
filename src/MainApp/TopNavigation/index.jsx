@@ -9,6 +9,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBarPopoverMenu from './AppBarPopoverMenu';
 import Tabs from './Tabs';
 
+import ApiHandlerContext from '../../provider/ApiHandlerContext';
+
 import AppLogo from '../../Logo.svg';
 
 const useStyles = makeStyles((theme) => ({
@@ -38,7 +40,7 @@ export default (props) => {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-
+  const { firebaseHandler } = React.useContext(ApiHandlerContext);
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -62,14 +64,14 @@ export default (props) => {
             aria-haspopup="true"
             onClick={handlePopoverOpen}
           >
-            <Avatar className={classes.small} src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png" />
+            <Avatar className={classes.small} src={firebaseHandler.getUser().avatarUrl} />
           </IconButton>
         </Toolbar>
         <Tabs {...props} />
       </AppBar>
 
       <AppBarPopoverMenu
-        {...{ handlePopoverClose, anchorEl }}
+        {...{ handlePopoverClose, anchorEl, firebaseHandler }}
       />
     </>
   );
