@@ -4,6 +4,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 
 import TopNavigation from './TopNavigation';
+import ContentArea from './ContentArea';
 
 import { TAB_HEIGHT_BELOW_SM, TAB_HEIGHT_ABOVE_SM } from './common/constants';
 
@@ -45,7 +46,9 @@ export default () => {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <div className={classes.tabs} />
-        <div className="container padding">Hello</div>
+        <div className="container padding">
+          <ContentArea selectedTab={selectedTab} />
+        </div>
       </main>
 
     </div>

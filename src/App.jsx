@@ -9,7 +9,7 @@ const theme = createMuiTheme({
       main: '#FF6863',
     },
     secondary: {
-      main: '#ef6c00',
+      main: '#ff231c',
     },
   },
   breakpoints: {
@@ -25,11 +25,6 @@ const theme = createMuiTheme({
     MuiAppBar: {
       colorPrimary: {
         backgroundColor: '#F5F5F5',
-      },
-    },
-    MuiButton: {
-      label: {
-        textTransform: 'capitalize',
       },
     },
   },

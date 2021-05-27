@@ -10,18 +10,19 @@
 }
 
 @media (min-width: 600px) {
-.container {
+  .container {
     width: 80%;
-}
+    min-width: 560px;
+  }
 }
 
 @media (min-width: 960px) {
-.container {
-  width: 68%;
-  max-width: 800px;
-}
+  .container {
+    width: 68%;
+    max-width: 850px;
+  }
 }
 
 @media (min-width: 1280px) {
-
+  
 }
