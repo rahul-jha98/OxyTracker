@@ -36,7 +36,7 @@ const roles = [
   'Supplier',
 ];
 
-export default ({ firebaseHandler }) => {
+export default ({ firebaseHandler, showToast }) => {
   const classes = useStyles();
   const [entity, setEntity] = React.useState(defaultEntityState);
   const [phoneError, setPhoneError] = React.useState('');
@@ -88,6 +88,7 @@ export default ({ firebaseHandler }) => {
       } else {
         await firebaseHandler.addUser(phoneNo, payload);
         setIsDisabled(false);
+        showToast(`User with mobile number ${phoneNo} has been added to the database`);
         setEntity(defaultEntityState);
       }
     }

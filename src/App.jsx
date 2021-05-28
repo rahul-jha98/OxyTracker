@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import './App.css';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
@@ -11,6 +12,8 @@ import MainApp from './MainApp';
 import ApiHandlerProvider from './provider/ApiHandlerProvider';
 import Firebase from './Firebase';
 import Database from './Database';
+
+import { setDataSource } from './actions';
 
 firebase.initializeApp({
   apiKey: 'AIzaSyCbGWlv_6igZpLGLQLGx5wKr1Ufd6Lv0ZI',
@@ -64,7 +67,7 @@ class App extends React.Component {
     super(props);
     this.state = { user: null, toast: '' };
     this.firebase = new Firebase();
-    this.database = new Database(this.firebase);
+    this.database = new Database(this.firebase, props.setDataSource);
   }
 
   componentDidMount = () => {
@@ -72,7 +75,7 @@ class App extends React.Component {
       (user) => {
         this.setState({ user });
         if (user) {
-          this.database.startRefetchLoop(10);
+          this.database.startRefetchLoop(1);
         }
       },
       (errorMessage) => {
@@ -121,8 +124,9 @@ class App extends React.Component {
   }
 }
 
+const AppWithRedux = connect(null, { setDataSource })(App);
 export default () => (
   <ThemeProvider theme={theme}>
-    <App />
+    <AppWithRedux />
   </ThemeProvider>
 );

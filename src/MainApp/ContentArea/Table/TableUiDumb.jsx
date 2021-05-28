@@ -31,6 +31,9 @@ const StyledTableRow = withStyles((theme) => ({
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.action.hover,
     },
+    '&:hover': {
+      backgroundColor: '#ffdfde99',
+    },
   },
 }))(TableRow);
 
@@ -66,6 +69,9 @@ const useHeaderStyles = makeStyles(() => ({
       color: 'white',
       fontWeight: 'bolder',
     },
+    '&:hover': {
+      color: 'white',
+    },
   },
   active: {
 
@@ -86,7 +92,6 @@ const EnhancedTableHead = ({
   return (
     <TableHead>
       <StyledTableRow>
-
         {headCells.map((headCell) => (
           <StyledTableCell
             key={headCell.id}

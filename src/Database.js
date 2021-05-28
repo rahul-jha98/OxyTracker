@@ -1,14 +1,11 @@
 export default class Database {
-  constructor(firebaseHandler) {
-    this.cylinderData = [];
-    this.userTableData = [];
-    this.customerData = [];
-
+  constructor(firebaseHandler, setDataSource) {
     this.userMapping = {};
     this.customerMapping = {};
     this.cylinderMapping = {};
 
     this.firebaseHandler = firebaseHandler;
+    this.setDataSource = setDataSource;
   }
 
   startRefetchLoop = async (mins) => {
@@ -16,7 +13,6 @@ export default class Database {
     setInterval(() => {
       this.refetch();
     }, mins * 60 * 1000);
-    // ab yahan ek timer lagana hai jo 10 min me ise wapas run kare
   }
 
   refetch = async () => {
@@ -28,6 +24,8 @@ export default class Database {
     const cylinderList = this.prepareCylinderData(cylinders, users, citizens);
     this.cylinderMapping = cylinderList;
     this.userMapping = usersList;
+
+    this.setDataSource(cylinderList, usersList, {});
   }
 
   prepareCylinderData = (cylinders, users, citizens) => {
@@ -43,7 +41,7 @@ export default class Database {
       } else {
         const { name, role } = users.get(data.current_owner) || {};
         entity = {
-          ...data, name, owner: { name, role, phone: data.current_owner }, cylinder_id: id,
+          ...data, name, role, owner: { name, role, phone: data.current_owner }, cylinder_id: id,
         };
       }
       entity.date = entity.timestamp.seconds;

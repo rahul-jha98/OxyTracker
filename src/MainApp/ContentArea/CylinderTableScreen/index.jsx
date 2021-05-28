@@ -9,16 +9,18 @@ const cells = [
     id: 'name', numeric: false, disablePadding: false, label: 'Name',
   },
   {
+    id: 'role', numeric: false, disablePadding: false, label: 'Role',
+  },
+  {
     id: 'date', numeric: false, disablePadding: false, label: 'Timestamp',
   },
 ];
 
-export default ({ databaseHandler, showToast }) => {
+export default ({ cylinders, showToast }) => {
   const [data, setData] = React.useState([]);
   React.useEffect(() => {
-    const list = databaseHandler.cylinderMapping || {};
-    setData(Object.values(list));
-  }, [databaseHandler]);
+    setData(Object.values(cylinders));
+  }, [cylinders]);
 
   const onRowClicked = (id) => () => {
     showToast(`Now I will show the details of cylinder ${id}`);
