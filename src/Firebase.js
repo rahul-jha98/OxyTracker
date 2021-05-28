@@ -77,12 +77,18 @@ export default class Firebase {
     }
   }
 
-  fetchUsers = async () => {
+  fetchDocuments = async (relativePath) => {
+    const data = new Map();
+    const snapShot = await firebase.firestore().collection(relativePath).get();
+    snapShot.docs.forEach((doc) => {
+      data.set(doc.id, doc.data());
+    });
+    return data;
   }
 
-  fetchCylinders = async () => {
-  }
+  fetchUsers = async () => this.fetchDocuments('users')
 
-  fetchCustomers = async () => {
-  }
+  fetchCylinders = async () => this.fetchDocuments('cylinders')
+
+  fetchCitizens = async () => this.fetchDocuments('citizens')
 }

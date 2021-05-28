@@ -64,12 +64,16 @@ class App extends React.Component {
     super(props);
     this.state = { user: null, toast: '' };
     this.firebase = new Firebase();
+    this.database = new Database(this.firebase);
   }
 
   componentDidMount = () => {
     this.firebase.setSignInListener(
       (user) => {
         this.setState({ user });
+        if (user) {
+          this.database.startRefetchLoop(10);
+        }
       },
       (errorMessage) => {
         // error maybe due to user not having access, network error etc
@@ -94,7 +98,7 @@ class App extends React.Component {
         <ApiHandlerProvider
           firebaseHandler={this.firebase}
           showToast={(message) => this.setState({ toast: message })}
-          databaseHandler={new Database(this.firebase)}
+          databaseHandler={this.database}
         >
           <MainApp />
         </ApiHandlerProvider>
