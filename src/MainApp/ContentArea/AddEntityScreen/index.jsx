@@ -9,6 +9,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import AddUser from './add_user.svg';
 
@@ -37,9 +38,9 @@ const defaultEntityState = {
 };
 
 const roles = [
-  { name: 'Doctor', canExit: true },
-  { name: 'Distributor' },
-  { name: 'Supplier' },
+  'Doctor',
+  'Distributor',
+  'Supplier',
 ];
 
 export default ({ firebaseHandler }) => {
@@ -86,7 +87,6 @@ export default ({ firebaseHandler }) => {
     if (!error) {
       setIsDisabled(true);
       const { phoneNo, ...payload } = entity;
-      payload.canExit = !!roles.filter((val) => val.name === payload.role)[0].canExit;
       payload.cylinders = [];
       const doesUserExist = await firebaseHandler.checkIfUserExist(phoneNo);
       if (doesUserExist) {
@@ -146,25 +146,34 @@ export default ({ firebaseHandler }) => {
           label="Role"
         >
           {roles.map((role) => (
-            <MenuItem value={role.name}>
-              {role.name}
+            <MenuItem value={role}>
+              {role}
             </MenuItem>
           ))}
         </Select>
         <FormHelperText id="role-helper-text">{roleError}</FormHelperText>
       </FormControl>
-      <div style={{ display: 'flex', justifyContent: 'flexEnd' }}>
-        <Button
-          disabled={isDisabled}
-          className={classes.marginTop4}
-          variant="contained"
-          color="secondary"
-          disableElevation
-          onClick={onSubmit}
-        >
-          Add Entity
-        </Button>
+      <div style={{ display: 'flex', alignItems: 'center' }} className={classes.marginTop2}>
+        <Typography style={{ flex: 1 }}>Can exit cylinders from system?</Typography>
+        <Checkbox
+          checked={entity.canExit}
+          onChange={(ev) => setEntity({ ...entity, canExit: ev.target.checked })}
+          name="Can Exit"
+          color="primary"
+          inputProps={{ 'aria-label': 'can exit checkbox' }}
+        />
       </div>
+
+      <Button
+        disabled={isDisabled}
+        className={classes.marginTop4}
+        variant="contained"
+        color="secondary"
+        disableElevation
+        onClick={onSubmit}
+      >
+        Add Entity
+      </Button>
 
     </div>
   );
