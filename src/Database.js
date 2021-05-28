@@ -36,15 +36,17 @@ export default class Database {
       if (data.isCitizen) {
         const owner = citizens.get(data.current_owner) || {};
         entity = {
-          ...data, owner, name: owner.name, role: 'Citizen', cylinder_id: id,
+          name: owner.name, role: 'Citizen', owner,
         };
       } else {
         const { name, role } = users.get(data.current_owner) || {};
         entity = {
-          ...data, name, role, owner: { name, role, phone: data.current_owner }, cylinder_id: id,
+          name, role, owner: { name, role, phone: data.current_owner },
         };
       }
-      entity.date = entity.timestamp.seconds;
+      entity = {
+        ...entity, ...data, cylinder_id: id, date: data.timestamp.seconds,
+      };
       cylindersList[id] = entity;
     });
     return cylindersList;
