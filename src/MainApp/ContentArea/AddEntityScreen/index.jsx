@@ -21,15 +21,8 @@ const useStyles = makeStyles((theme) => ({
   marginTop2: {
     marginTop: theme.spacing(2),
   },
-  marginBottom2: {
-    marginBottom: theme.spacing(2),
-  },
   marginTop4: {
     marginTop: theme.spacing(4),
-  },
-  actions: {
-    paddingLeft: theme.spacing(3),
-    paddingRight: theme.spacing(3),
   },
 }));
 

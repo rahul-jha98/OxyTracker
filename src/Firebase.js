@@ -22,7 +22,7 @@ export default class Firebase {
         this.onSignInChanged(null);
         return null;
       }
-      const doesExist = await this.checkIfAdminExist(user);
+      const doesExist = await this.checkIfAdminExist(user.email);
       if (doesExist) {
         this.onSignInChanged(user);
       } else {
@@ -43,8 +43,8 @@ export default class Firebase {
     avatarUrl: this.auth.currentUser.photoURL,
   })
 
-  checkIfAdminExist = async (user) => {
-    const userRef = this.firestore.doc(`admins/${user.email}`);
+  checkIfAdminExist = async (email) => {
+    const userRef = this.firestore.doc(`admins/${email}`);
     const snapshot = await userRef.get();
     return snapshot.exists;
   };
@@ -63,6 +63,17 @@ export default class Firebase {
       );
     } catch (error) {
       console.log('Error in creating user', error);
+    }
+  }
+
+  addAdmin = async (email, payload) => {
+    const adminRef = this.firestore.doc(`admins/${email}`);
+    try {
+      await adminRef.set(
+        payload,
+      );
+    } catch (error) {
+      console.log('Error in creating admin', error);
     }
   }
 
