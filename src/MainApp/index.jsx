@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 export default () => {
   const classes = useStyles();
 
-  const tabsList = ['Entities', 'Cylinders', 'Home Patients', 'Add Entities'];
+  const tabsList = ['Cylinders', 'Entities', 'Home Patients', 'Add Entities'];
   const [selectedTab, setSelectedTab] = React.useState(0);
 
   const handleTabChange = (_, newValue) => {
