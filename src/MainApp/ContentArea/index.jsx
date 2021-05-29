@@ -12,18 +12,19 @@ const ContentArea = ({
   selectedTab, cylinders, users, citizens, roleCylindersMapping,
 }) => {
   const { firebaseHandler, showToast, databaseHandler } = React.useContext(ApiHandlerContext);
-  if (selectedTab === 1) {
-    return <EntityScreen users={users} showToast={showToast} />;
-  }
   if (selectedTab === 0) {
     return (
       <CylinderScreen
         cylinders={cylinders}
+        firebaseHandler={firebaseHandler}
         roleCylindersMapping={roleCylindersMapping}
         databaseHandler={databaseHandler}
         showToast={showToast}
       />
     );
+  }
+  if (selectedTab === 1) {
+    return <EntityScreen users={users} showToast={showToast} />;
   }
   if (selectedTab === 2) {
     return (

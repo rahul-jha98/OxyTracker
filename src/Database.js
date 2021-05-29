@@ -11,11 +11,15 @@ export default class Database {
     this.setDataSource = setDataSource;
   }
 
-  startRefetchLoop = async (mins) => {
+  startRefetchLoop = (mins) => {
     this.refetch();
-    setInterval(() => {
+    this.taskId = setInterval(() => {
       this.refetch();
     }, mins * 60 * 1000);
+  }
+
+  stopRefetchLoop = () => {
+    clearInterval(this.intervalID);
   }
 
   refetch = async () => {
@@ -54,6 +58,13 @@ export default class Database {
     return [`${year}-${month}-${date}`, `${hours}:${minutes} ${ampm}`];
   }
 
+  dateDifferenceWithoutTime = (dateObj1, dateObj2) => {
+    const utc1 = Date.UTC(dateObj1.getFullYear(), dateObj1.getMonth(), dateObj1.getDate());
+    const utc2 = Date.UTC(dateObj2.getFullYear(), dateObj2.getMonth(), dateObj2.getDate());
+
+    return Math.floor((utc2 - utc1) / (1000 * 60 * 60 * 24)) + 1;
+  }
+
   prepareCylinderData = (cylinders, users, citizens) => {
     const cylindersList = {};
     this.citizenToCylinderMapping = {};
@@ -74,7 +85,7 @@ export default class Database {
       const dateObj = data.timestamp.toDate();
       const [date, time] = this.getFormattedDateTimeString(dateObj);
       entity = {
-        ...entity, ...data, cylinder_id: id, timestamp: data.timestamp.seconds, date, time,
+        ...entity, ...data, cylinder_id: id, timestamp: data.timestamp, date, time,
       };
       cylindersList[id] = entity;
     });
@@ -103,11 +114,13 @@ export default class Database {
       const cylinderID = this.citizenToCylinderMapping[id];
       if (cylinderID) {
         const cylinderData = this.cylinderMapping[cylinderID];
+        const dateObj = cylinderData.timestamp.toDate();
+        const dateDiff = this.dateDifferenceWithoutTime(dateObj, new Date());
         citizensList[id] = {
           ...data,
           citizen_id: id,
           cylinder_id: cylinderData.cylinder_id,
-          timestamp: cylinderData.timestamp,
+          dateDiff,
           date: cylinderData.date,
           time: cylinderData.time,
           role: 'Citizen',
@@ -148,6 +161,7 @@ export default class Database {
       };
       owners.push(entity);
     });
+    owners.reverse();
     return owners;
   }
 }

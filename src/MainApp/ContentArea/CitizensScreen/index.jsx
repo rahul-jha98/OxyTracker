@@ -12,6 +12,9 @@ const cells = [
   {
     id: 'cylinder_id', numeric: true, disablePadding: true, label: 'Cylinder Owned',
   },
+  {
+    id: 'dateDiff', numeric: true, disablePadding: true, label: 'Days since received',
+  },
 ];
 
 export default ({ citizens }) => {

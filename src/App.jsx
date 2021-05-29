@@ -18,6 +18,7 @@ import { setDataSource } from './actions';
 firebase.initializeApp({
   apiKey: 'AIzaSyCbGWlv_6igZpLGLQLGx5wKr1Ufd6Lv0ZI',
   authDomain: 'o2-tracker.firebaseapp.com',
+  storageBucket: 'gs://o2-tracker.appspot.com',
   projectId: 'o2-tracker',
 });
 
@@ -80,7 +81,9 @@ class App extends React.Component {
       (user) => {
         this.setState({ user });
         if (user) {
-          this.database.startRefetchLoop(1);
+          this.database.startRefetchLoop(10);
+        } else {
+          this.database.stopRefetchLoop();
         }
       },
       (errorMessage) => {

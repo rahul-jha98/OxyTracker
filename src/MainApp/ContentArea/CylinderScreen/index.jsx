@@ -1,7 +1,8 @@
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import BarGraph from '../Graph/BarGraph';
-import Table from '../Table';
 
+import Table from '../Table';
 import DetailModal from './CylinderDetailModal';
 
 const cells = [
@@ -24,8 +25,8 @@ const convertRoleCylinderData = (roleCylindersMapping) => ({
   datasets: [
     {
       label: 'Cylinders',
-      backgroundColor: 'rgba(75,192,192,1)',
-      borderColor: 'rgba(0,0,0,1)',
+      backgroundColor: '#FECFCE',
+      borderColor: '#FF6863',
       borderWidth: 2,
       data: Object.values(roleCylindersMapping),
 
@@ -33,11 +34,26 @@ const convertRoleCylinderData = (roleCylindersMapping) => ({
   ],
 });
 
-export default ({ cylinders, roleCylindersMapping, databaseHandler }) => {
+const useStyles = makeStyles((theme) => ({
+  graph: {
+    margin: 'auto',
+    width: '85%',
+    marginTop: theme.spacing(3),
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
+  },
+}));
+
+export default ({
+  cylinders, roleCylindersMapping, databaseHandler, firebaseHandler, showToast,
+}) => {
+  const classes = useStyles();
   const [data, setData] = React.useState([]);
   const [roleCylindersData, setRoleCylinderMapping] = React.useState({});
   const [dialogOpen, setDialogOpenValue] = React.useState(false);
   const [selectedCylinder, setSelectedCylinder] = React.useState('');
+  const [animate, setAnimate] = React.useState(true);
 
   React.useEffect(() => {
     setData(Object.values(cylinders));
@@ -45,7 +61,11 @@ export default ({ cylinders, roleCylindersMapping, databaseHandler }) => {
 
   React.useEffect(() => {
     const roleCylinderData = convertRoleCylinderData(roleCylindersMapping);
+    setAnimate(true);
     setRoleCylinderMapping(roleCylinderData);
+    setTimeout(() => {
+      setAnimate(false);
+    }, 1400);
   }, [roleCylindersMapping]);
 
   const setDialogOpen = (val) => {
@@ -75,6 +95,8 @@ export default ({ cylinders, roleCylindersMapping, databaseHandler }) => {
       <BarGraph
         data={roleCylindersData}
         heading={heading}
+        className={classes.graph}
+        withAnimate={animate}
       />
       <Table
         rowArray={data}
@@ -85,7 +107,9 @@ export default ({ cylinders, roleCylindersMapping, databaseHandler }) => {
       <DetailModal
         cylinder={cylinders[selectedCylinder]}
         databaseHandler={databaseHandler}
+        firebaseHandler={firebaseHandler}
         open={dialogOpen}
+        showToast={showToast}
         onClose={() => setDialogOpen(false)}
       />
     </>

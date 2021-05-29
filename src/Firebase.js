@@ -3,6 +3,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import 'firebase/storage';
 
 export default class Firebase {
   auth = firebase.auth();
@@ -57,9 +58,7 @@ export default class Firebase {
   addUser = async (phoneNo, payload) => {
     const userRef = this.firestore.doc(`users/${phoneNo}`);
     try {
-      await userRef.set(
-        payload,
-      );
+      await userRef.set({ ...payload, adder_admin: this.auth.currentUser.email });
     } catch (error) {
       console.log('Error in creating user', error);
     }
@@ -68,9 +67,7 @@ export default class Firebase {
   addAdmin = async (email, payload) => {
     const adminRef = this.firestore.doc(`admins/${email}`);
     try {
-      await adminRef.set(
-        payload,
-      );
+      await adminRef.set({ ...payload, adder_admin: this.auth.currentUser.email });
     } catch (error) {
       console.log('Error in creating admin', error);
     }
@@ -90,4 +87,15 @@ export default class Firebase {
   fetchCylinders = async () => this.fetchDocuments('cylinders')
 
   fetchCitizens = async () => this.fetchDocuments('citizens')
+
+  fetchHistory = async (id) => {
+    const snapShot = await firebase.firestore().doc(`history/${id}`).get();
+    return snapShot.data();
+  }
+
+  getQRDownloadLink = async (cylinderID) => {
+    const storageRef = firebase.storage().ref();
+
+    return storageRef.child(`QR/${cylinderID}.jpg`).getDownloadURL();
+  }
 }

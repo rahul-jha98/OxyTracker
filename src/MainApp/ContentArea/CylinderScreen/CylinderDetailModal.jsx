@@ -42,25 +42,17 @@ const styles = (theme) => ({
 
 const CustomDialogTitle = withStyles(styles)((props) => {
   const {
-    children, classes, qrLink, ...other
+    children, classes, onQRDownloadClicked, ...other
   } = props;
   return (
 
     <DialogTitle disableTypography className={classes.root} {...other}>
       <Typography className={classes.title} variant="h6">{children}</Typography>
-      <Tooltip title="Get QR Image">
-        <IconButton aria-label="qr" className={classes.icon}>
-          <a
-            href={qrLink}
-            rel="noopener noreferrer"
-            target="_blank"
-            style={{ color: 'inherit', textDecoration: 'none', height: 24 }}
-          >
-            <SvgIcon>
-              <QR />
-            </SvgIcon>
-          </a>
-
+      <Tooltip title="Download QR Image">
+        <IconButton aria-label="qr" className={classes.icon} onClick={onQRDownloadClicked}>
+          <SvgIcon>
+            <QR />
+          </SvgIcon>
         </IconButton>
       </Tooltip>
 
@@ -70,7 +62,7 @@ const CustomDialogTitle = withStyles(styles)((props) => {
 });
 
 export default ({
-  cylinder, open, onClose, databaseHandler,
+  cylinder, open, onClose, databaseHandler, firebaseHandler, showToast,
 }) => {
   if (!cylinder) {
     return null;
@@ -90,6 +82,47 @@ export default ({
 
   const classes = useStyles();
 
+  const [url, setUrl] = React.useState('');
+  const aRef = React.useRef();
+
+  const downloadQR = async () => {
+    try {
+      const qrUrl = await firebaseHandler.getQRDownloadLink(cylinder.cylinder_id);
+      const xhr = new XMLHttpRequest();
+      xhr.responseType = 'blob';
+      xhr.onload = () => {
+        const blob = xhr.response;
+        const blobUrl = window.URL.createObjectURL(blob);
+        setUrl(blobUrl);
+        setTimeout(() => {
+          aRef.current.click();
+        }, 1000);
+      };
+      xhr.open('GET', qrUrl);
+      xhr.send();
+    } catch (err) {
+      switch (err.code) {
+        case 'storage/object-not-found':
+          // File doesn't exist
+          showToast("The QR file doesn't exist");
+          break;
+        case 'storage/unauthorized':
+          // User doesn't have permission to access the object
+          showToast('Access Denied');
+          break;
+        case 'storage/canceled':
+          // User canceled the upload
+          break;
+
+          // ...
+
+        default:
+          // Unknown error occurred, inspect the server response
+          showToast('Something went wrong. Try again later');
+          break;
+      }
+    }
+  };
   return (
     <Dialog
       fullScreen={fullScreen}
@@ -99,10 +132,11 @@ export default ({
       maxWidth="xs"
       aria-labelledby="responsive-dialog-title"
     >
-      <CustomDialogTitle qrLink="https://www.google.com">
+      <CustomDialogTitle onQRDownloadClicked={downloadQR}>
         Cylinder Details
       </CustomDialogTitle>
       <DialogContent>
+        <a hidden ref={aRef} href={url} download={`QR-${cylinder.cylinder_id}.jpg`} target="_blank" rel="noreferrer">Hello</a>
         <Typography color="primary" variant="subtitle2">
           Cylinder ID
         </Typography>
@@ -147,7 +181,7 @@ export default ({
               </Typography>
             </TimelineOppositeContent>
             <TimelineSeparator>
-              <TimelineDot color="primary" />
+              <TimelineDot color="primary" variant="outlined" />
               <TimelineConnector />
             </TimelineSeparator>
             <TimelineContent>
@@ -174,7 +208,7 @@ export default ({
                 </Typography>
               </TimelineOppositeContent>
               <TimelineSeparator>
-                <TimelineDot variant="outlined" />
+                <TimelineDot />
                 <TimelineConnector />
               </TimelineSeparator>
               <TimelineContent style={{ paddingBottom: 8 }}>
