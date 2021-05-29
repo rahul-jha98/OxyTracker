@@ -3,10 +3,14 @@ import { connect } from 'react-redux';
 
 import AddEntityScreen from './AddEntityScreen';
 import EntityScreen from './EntityScreen';
+import CitizensScreen from './CitizensScreen';
 import CylinderScreen from './CylinderScreen';
+
 import ApiHandlerContext from '../../provider/ApiHandlerContext';
 
-const ContentArea = ({ selectedTab, cylinders, users }) => {
+const ContentArea = ({
+  selectedTab, cylinders, users, citizens,
+}) => {
   const { firebaseHandler, showToast, databaseHandler } = React.useContext(ApiHandlerContext);
   if (selectedTab === 0) {
     return <EntityScreen users={users} showToast={showToast} />;
@@ -16,6 +20,14 @@ const ContentArea = ({ selectedTab, cylinders, users }) => {
       <CylinderScreen
         cylinders={cylinders}
         databaseHandler={databaseHandler}
+        showToast={showToast}
+      />
+    );
+  }
+  if (selectedTab === 2) {
+    return (
+      <CitizensScreen
+        citizens={citizens}
         showToast={showToast}
       />
     );

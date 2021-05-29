@@ -29,7 +29,13 @@ export default class Database {
     const citizensList = this.prepareCitizensData(citizens);
     this.citizensMapping = citizensList;
 
-    this.setDataSource(cylinderList, usersList, {});
+    const citizensWithCylinders = {};
+    Object.entries(citizensList).forEach(([key, value]) => {
+      if (value.cylinder_id) {
+        citizensWithCylinders[key] = value;
+      }
+    });
+    this.setDataSource(cylinderList, usersList, citizensWithCylinders);
   }
 
   getFormattedDateTimeString = (date_ob) => {
@@ -53,13 +59,13 @@ export default class Database {
       if (data.isCitizen) {
         const owner = citizens.get(data.current_owner) || {};
         entity = {
-          name: owner.name, role: 'Citizen', owner,
+          name: owner.name, role: 'Citizen', owner, phone: owner.phone,
         };
         this.citizenToCylinderMapping[data.current_owner] = id;
       } else {
         const { name, role } = users.get(data.current_owner) || {};
         entity = {
-          name, role, owner: { name, role, phone: data.current_owner },
+          name, role, owner: { name, role, phone: data.current_owner }, phone: data.current_owner,
         };
       }
       const dateObj = data.timestamp.toDate();
@@ -95,6 +101,7 @@ export default class Database {
           timestamp: cylinderData.timestamp,
           date: cylinderData.date,
           time: cylinderData.time,
+          role: 'Citizen',
         };
       } else {
         citizensList[id] = {

@@ -1,51 +1,47 @@
 import React from 'react';
 import Table from '../Table';
-
-import DetailModal from './CylinderDetailModal';
+import DetailModal from './CitizenDetailModal';
 
 const cells = [
-  {
-    id: 'cylinder_id', numeric: false, disablePadding: true, label: 'Cylinder ID',
-  },
   {
     id: 'name', numeric: false, disablePadding: false, label: 'Name',
   },
   {
-    id: 'phone', numeric: false, disablePadding: false, label: 'Mobile No',
+    id: 'phone', numeric: true, disablePadding: true, label: 'Mobile No',
   },
   {
-    id: 'date', numeric: false, disablePadding: false, label: 'Last Updated',
+    id: 'cylinder_id', numeric: true, disablePadding: true, label: 'Cylinder Owned',
   },
 ];
 
-export default ({ cylinders, databaseHandler }) => {
+export default ({ citizens }) => {
   const [data, setData] = React.useState([]);
   const [dialogOpen, setDialogOpenValue] = React.useState(false);
-  const [selectedCylinder, setSelectedCylinder] = React.useState('');
+  const [selectedEntity, setSelectedEntity] = React.useState('');
 
   React.useEffect(() => {
-    setData(Object.values(cylinders));
-  }, [cylinders]);
+    setData(Object.values(citizens));
+  }, [citizens]);
 
   const setDialogOpen = (val) => {
     if (val) {
-      window.location.hash = '#cylinder';
+      window.location.hash = '#citizens';
     } else {
       window.history.back();
     }
   };
 
   React.useEffect(() => {
-    if (window.location.hash === '#cylinder') {
+    if (window.location.hash === '#citizens') {
       window.history.back();
     }
-    const onHashChange = () => setDialogOpenValue(window.location.hash === '#cylinder');
+    const onHashChange = () => setDialogOpenValue(window.location.hash === '#citizens');
     window.addEventListener('hashchange', onHashChange);
     return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
 
   const onRowClicked = (id) => () => {
-    setSelectedCylinder(id);
+    setSelectedEntity(id);
     setDialogOpen(true);
   };
   return (
@@ -53,12 +49,11 @@ export default ({ cylinders, databaseHandler }) => {
       <Table
         rowArray={data}
         headCells={cells}
-        rowID="cylinder_id"
+        rowID="citizen_id"
         onRowClicked={onRowClicked}
       />
       <DetailModal
-        cylinder={cylinders[selectedCylinder]}
-        databaseHandler={databaseHandler}
+        citizen={citizens[selectedEntity]}
         open={dialogOpen}
         onClose={() => setDialogOpen(false)}
       />

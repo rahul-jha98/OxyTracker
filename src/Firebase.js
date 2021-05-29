@@ -58,9 +58,7 @@ export default class Firebase {
   addUser = async (phoneNo, payload) => {
     const userRef = this.firestore.doc(`users/${phoneNo}`);
     try {
-      await userRef.set(
-        payload,
-      );
+      await userRef.set({ ...payload, adder_admin: this.auth.currentUser.email });
     } catch (error) {
       console.log('Error in creating user', error);
     }
@@ -69,9 +67,7 @@ export default class Firebase {
   addAdmin = async (email, payload) => {
     const adminRef = this.firestore.doc(`admins/${email}`);
     try {
-      await adminRef.set(
-        payload,
-      );
+      await adminRef.set({ ...payload, adder_admin: this.auth.currentUser.email });
     } catch (error) {
       console.log('Error in creating admin', error);
     }
