@@ -1,4 +1,5 @@
 import React from 'react';
+import BarGraph from '../Graph/BarGraph';
 import Table from '../Table';
 
 import DetailModal from './CylinderDetailModal';
@@ -17,15 +18,35 @@ const cells = [
     id: 'date', numeric: false, disablePadding: false, label: 'Last Updated',
   },
 ];
+const heading = 'Cylinder Distribution Graph';
+const convertRoleCylinderData = (roleCylindersMapping) => ({
+  labels: Object.keys(roleCylindersMapping),
+  datasets: [
+    {
+      label: 'Cylinders',
+      backgroundColor: 'rgba(75,192,192,1)',
+      borderColor: 'rgba(0,0,0,1)',
+      borderWidth: 2,
+      data: Object.values(roleCylindersMapping),
 
-export default ({ cylinders, databaseHandler }) => {
+    },
+  ],
+});
+
+export default ({ cylinders, roleCylindersMapping, databaseHandler }) => {
   const [data, setData] = React.useState([]);
+  const [roleCylindersData, setRoleCylinderMapping] = React.useState({});
   const [dialogOpen, setDialogOpenValue] = React.useState(false);
   const [selectedCylinder, setSelectedCylinder] = React.useState('');
 
   React.useEffect(() => {
     setData(Object.values(cylinders));
   }, [cylinders]);
+
+  React.useEffect(() => {
+    const roleCylinderData = convertRoleCylinderData(roleCylindersMapping);
+    setRoleCylinderMapping(roleCylinderData);
+  }, [roleCylindersMapping]);
 
   const setDialogOpen = (val) => {
     if (val) {
@@ -48,8 +69,13 @@ export default ({ cylinders, databaseHandler }) => {
     setSelectedCylinder(id);
     setDialogOpen(true);
   };
+
   return (
     <>
+      <BarGraph
+        data={roleCylindersData}
+        heading={heading}
+      />
       <Table
         rowArray={data}
         headCells={cells}

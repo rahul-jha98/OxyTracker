@@ -3,6 +3,7 @@ export default class Database {
     this.userMapping = {};
     this.citizensMapping = {};
     this.cylinderMapping = {};
+    this.roleCylindersMapping = {};
 
     this.citizenToCylinderMapping = {};
 
@@ -22,7 +23,7 @@ export default class Database {
     const cylinders = await this.firebaseHandler.fetchCylinders();
     const citizens = await this.firebaseHandler.fetchCitizens();
 
-    const usersList = this.prepareUserTableData(users);
+    const { usersList, roleCylinderMappingData } = this.prepareUserTableData(users);
     this.userMapping = usersList;
     const cylinderList = this.prepareCylinderData(cylinders, users, citizens);
     this.cylinderMapping = cylinderList;
@@ -35,7 +36,9 @@ export default class Database {
         citizensWithCylinders[key] = value;
       }
     });
-    this.setDataSource(cylinderList, usersList, citizensWithCylinders);
+    roleCylinderMappingData.Citizen = Object.keys(citizensWithCylinders).length;
+    this.roleCylindersMapping = roleCylinderMappingData;
+    this.setDataSource(cylinderList, usersList, citizensWithCylinders, roleCylinderMappingData);
   }
 
   getFormattedDateTimeString = (date_ob) => {
@@ -80,11 +83,17 @@ export default class Database {
 
   prepareUserTableData = (users) => {
     const usersList = {};
+    const roleCylinderMappingData = {};
 
     users.forEach((data, phone) => {
       usersList[phone] = { ...data, phone, cylinderCount: data.cylinders.length };
+      if (roleCylinderMappingData[data.role] === undefined) {
+        roleCylinderMappingData[data.role] = data.cylinders.length;
+      } else {
+        roleCylinderMappingData[data.role] += data.cylinders.length;
+      }
     });
-    return usersList;
+    return { usersList, roleCylinderMappingData };
   }
 
   prepareCitizensData = (citizens) => {

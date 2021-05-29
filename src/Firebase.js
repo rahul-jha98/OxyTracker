@@ -14,7 +14,6 @@ export default class Firebase {
   }
 
   setSignInListener = (onSignInChanged, onSignInFailed) => {
-    console.log(this.auth, this.firestore);
     this.onSignInChanged = onSignInChanged;
     this.onSignInFailed = onSignInFailed;
     this.auth.onAuthStateChanged(async (user) => {
@@ -58,7 +57,9 @@ export default class Firebase {
   addUser = async (phoneNo, payload) => {
     const userRef = this.firestore.doc(`users/${phoneNo}`);
     try {
-      await userRef.set({ ...payload, adder_admin: this.auth.currentUser.email });
+      await userRef.set(
+        payload,
+      );
     } catch (error) {
       console.log('Error in creating user', error);
     }
@@ -67,7 +68,9 @@ export default class Firebase {
   addAdmin = async (email, payload) => {
     const adminRef = this.firestore.doc(`admins/${email}`);
     try {
-      await adminRef.set({ ...payload, adder_admin: this.auth.currentUser.email });
+      await adminRef.set(
+        payload,
+      );
     } catch (error) {
       console.log('Error in creating admin', error);
     }
@@ -87,9 +90,4 @@ export default class Firebase {
   fetchCylinders = async () => this.fetchDocuments('cylinders')
 
   fetchCitizens = async () => this.fetchDocuments('citizens')
-
-  fetchHistory = async (id) => {
-    const snapShot = await firebase.firestore().doc(`history/${id}`).get();
-    return snapShot.data();
-  }
 }

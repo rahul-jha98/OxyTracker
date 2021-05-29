@@ -9,7 +9,7 @@ import CylinderScreen from './CylinderScreen';
 import ApiHandlerContext from '../../provider/ApiHandlerContext';
 
 const ContentArea = ({
-  selectedTab, cylinders, users, citizens,
+  selectedTab, cylinders, users, citizens, roleCylindersMapping,
 }) => {
   const { firebaseHandler, showToast, databaseHandler } = React.useContext(ApiHandlerContext);
   if (selectedTab === 0) {
@@ -19,6 +19,7 @@ const ContentArea = ({
     return (
       <CylinderScreen
         cylinders={cylinders}
+        roleCylindersMapping={roleCylindersMapping}
         databaseHandler={databaseHandler}
         showToast={showToast}
       />
@@ -42,6 +43,7 @@ const mapStateToProps = (state) => ({
   cylinders: state.cylinders,
   users: state.users,
   citizens: state.citizens,
+  roleCylindersMapping: state.roleCylindersMapping,
 });
 
 export default connect(mapStateToProps)(ContentArea);
