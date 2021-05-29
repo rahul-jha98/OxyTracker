@@ -11,7 +11,7 @@ const cells = [
     id: 'role', numeric: false, disablePadding: false, label: 'Role',
   },
   {
-    id: 'cylinderCount', numeric: true, disablePadding: false, label: 'Cylinders Owner',
+    id: 'cylinderCount', numeric: true, disablePadding: false, label: 'Cylinders Owned',
   },
   {
     id: 'phone', numeric: true, disablePadding: true, label: 'Mobile No',
