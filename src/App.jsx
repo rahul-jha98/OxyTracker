@@ -49,6 +49,11 @@ const theme = createMuiTheme({
         backgroundColor: '#F5F5F5',
       },
     },
+    MuiTimelineContent: {
+      root: {
+        paddingBottom: 16,
+      },
+    },
   },
 });
 

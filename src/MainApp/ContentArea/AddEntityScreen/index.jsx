@@ -168,7 +168,6 @@ export default ({ firebaseHandler, showToast }) => {
       >
         Add Entity
       </Button>
-
     </div>
   );
 };

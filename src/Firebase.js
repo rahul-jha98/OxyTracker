@@ -91,4 +91,9 @@ export default class Firebase {
   fetchCylinders = async () => this.fetchDocuments('cylinders')
 
   fetchCitizens = async () => this.fetchDocuments('citizens')
+
+  fetchHistory = async (id) => {
+    const snapShot = await firebase.firestore().doc(`history/${id}`).get();
+    return snapShot.data();
+  }
 }

@@ -139,7 +139,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   table: {
-    minWidth: 500,
+    minWidth: 300,
   },
 }));
 

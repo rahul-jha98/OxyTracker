@@ -2,16 +2,14 @@ import React from 'react';
 import Table from '../Table';
 
 const cells = [
-
   {
     id: 'name', numeric: false, disablePadding: false, label: 'Name',
   },
-
   {
     id: 'role', numeric: false, disablePadding: false, label: 'Role',
   },
   {
-    id: 'cylinderCount', numeric: true, disablePadding: false, label: 'Cylinders Owned',
+    id: 'cylinderCount', numeric: true, disablePadding: true, label: 'Cylinders Owned',
   },
   {
     id: 'phone', numeric: true, disablePadding: true, label: 'Mobile No',
