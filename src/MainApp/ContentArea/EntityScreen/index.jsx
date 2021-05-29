@@ -1,5 +1,6 @@
 import React from 'react';
 import Table from '../Table';
+import DetailModal from './EntityDetailModal';
 
 const cells = [
   {
@@ -16,21 +17,49 @@ const cells = [
   },
 ];
 
-export default ({ users, showToast }) => {
+export default ({ users }) => {
   const [data, setData] = React.useState([]);
+  const [dialogOpen, setDialogOpenValue] = React.useState(false);
+  const [selectedEntity, setSelectedEntity] = React.useState('');
+
   React.useEffect(() => {
     setData(Object.values(users));
   }, [users]);
 
+  const setDialogOpen = (val) => {
+    if (val) {
+      window.location.hash = '#entity';
+    } else {
+      window.history.back();
+    }
+  };
+
+  React.useEffect(() => {
+    if (window.location.hash === '#entity') {
+      window.history.back();
+    }
+    const onHashChange = () => setDialogOpenValue(window.location.hash === '#entity');
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
+
   const onRowClicked = (id) => () => {
-    showToast(`Now I will show the details of user ${id}`);
+    setSelectedEntity(id);
+    setDialogOpen(true);
   };
   return (
-    <Table
-      rowArray={data}
-      headCells={cells}
-      rowID="phone"
-      onRowClicked={onRowClicked}
-    />
+    <>
+      <Table
+        rowArray={data}
+        headCells={cells}
+        rowID="phone"
+        onRowClicked={onRowClicked}
+      />
+      <DetailModal
+        entity={users[selectedEntity]}
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+      />
+    </>
   );
 };
