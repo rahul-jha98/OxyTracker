@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import './App.css';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+
 import { StyledFirebaseAuth } from 'react-firebaseui';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import firebase from 'firebase/app';
@@ -14,6 +17,7 @@ import Firebase from './Firebase';
 import Database from './Database';
 
 import { setDataSource } from './actions';
+import Logo from './Logo.svg';
 
 firebase.initializeApp({
   apiKey: 'AIzaSyCbGWlv_6igZpLGLQLGx5wKr1Ufd6Lv0ZI',
@@ -96,12 +100,17 @@ class App extends React.Component {
   render() {
     const { user } = this.state;
     let screen = (
-      <div>
-        <StyledFirebaseAuth
-          uiConfig={this.uiconfig}
-          firebaseAuth={firebase.auth()}
-        />
-        <div><p> Helloooo</p></div>
+      <div className="viewport">
+        <Paper elevation={3} className="paper" style={{ borderRadius: 12 }}>
+          <Typography variant="h6" color="primary">Admin Portal</Typography>
+          <Typography variant="body2" color="textSecondary">for</Typography>
+          <img className="logoimg" src={Logo} alt="logo" />
+
+          <StyledFirebaseAuth
+            uiConfig={this.uiconfig}
+            firebaseAuth={firebase.auth()}
+          />
+        </Paper>
       </div>
     );
     if (user) {
