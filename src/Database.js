@@ -164,4 +164,9 @@ export default class Database {
     owners.reverse();
     return owners;
   }
+
+  changeCanExit = async (phone, canExit) => {
+    await this.firebaseHandler.changeCanExit(phone, canExit);
+    this.refetch();
+  }
 }

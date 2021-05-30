@@ -32,7 +32,7 @@ const ContentArea = ({
     );
   }
   if (selectedTab === 1) {
-    return <EntityScreen users={users} showToast={showToast} />;
+    return <EntityScreen users={users} showToast={showToast} databaseHandler={databaseHandler} />;
   }
   if (selectedTab === 2) {
     return (

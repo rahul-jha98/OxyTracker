@@ -7,6 +7,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 
+import OpenInNewOutlinedIcon from '@material-ui/icons/OpenInNewOutlined';
+
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -32,6 +34,7 @@ export default ({
 
   const openPrescription = async (event) => {
     event.preventDefault();
+    showToast('Opening prescription image...');
     try {
       const prescriptionUrl = await firebaseHandler
         .getPrescriptionLink(citizen.prescriptionFileName);
@@ -104,8 +107,9 @@ export default ({
         </Typography>
         <Typography variant="body1" gutterBottom>
           <Link href="#" onClick={openPrescription} color="inherit">
-            View Prescription in new tab
+            View Prescription
           </Link>
+          <OpenInNewOutlinedIcon style={{ fontSize: 16, marginBottom: -2, marginLeft: 4 }} />
         </Typography>
 
         <Typography className={classes.marginTop2} color="primary" variant="subtitle2">

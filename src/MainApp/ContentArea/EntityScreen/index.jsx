@@ -17,7 +17,7 @@ const cells = [
   },
 ];
 
-export default ({ users }) => {
+export default ({ users, databaseHandler }) => {
   const [data, setData] = React.useState([]);
   const [dialogOpen, setDialogOpenValue] = React.useState(false);
   const [selectedEntity, setSelectedEntity] = React.useState('');
@@ -59,6 +59,7 @@ export default ({ users }) => {
         entity={users[selectedEntity]}
         open={dialogOpen}
         onClose={() => setDialogOpen(false)}
+        databaseHandler={databaseHandler}
       />
     </>
   );

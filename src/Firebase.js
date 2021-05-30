@@ -104,4 +104,11 @@ export default class Firebase {
 
     return storageRef.child(`Receipt/${fileName}`).getDownloadURL();
   }
+
+  changeCanExit = async (phone, canExit) => {
+    await firebase.firestore()
+      .collection('users')
+      .doc(phone)
+      .update({ canExit });
+  }
 }
