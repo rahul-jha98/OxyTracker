@@ -17,7 +17,7 @@ const cells = [
   },
 ];
 
-export default ({ citizens }) => {
+export default ({ citizens, firebaseHandler, showToast }) => {
   const [data, setData] = React.useState([]);
   const [dialogOpen, setDialogOpenValue] = React.useState(false);
   const [selectedEntity, setSelectedEntity] = React.useState('');
@@ -59,6 +59,8 @@ export default ({ citizens }) => {
         citizen={citizens[selectedEntity]}
         open={dialogOpen}
         onClose={() => setDialogOpen(false)}
+        firebaseHandler={firebaseHandler}
+        showToast={showToast}
       />
     </>
   );

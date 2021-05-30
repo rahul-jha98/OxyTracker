@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import AddEntityScreen from './AddEntityScreen';
 import EntityScreen from './EntityScreen';
@@ -12,6 +13,13 @@ const ContentArea = ({
   selectedTab, cylinders, users, citizens, roleCylindersMapping,
 }) => {
   const { firebaseHandler, showToast, databaseHandler } = React.useContext(ApiHandlerContext);
+  if (roleCylindersMapping === null) {
+    return (
+      <div style={{ width: '100%', textAlign: 'center', margin: 32 }}>
+        <CircularProgress />
+      </div>
+    );
+  }
   if (selectedTab === 0) {
     return (
       <CylinderScreen
@@ -31,6 +39,7 @@ const ContentArea = ({
       <CitizensScreen
         citizens={citizens}
         showToast={showToast}
+        firebaseHandler={firebaseHandler}
       />
     );
   }

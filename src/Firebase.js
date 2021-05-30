@@ -98,4 +98,10 @@ export default class Firebase {
 
     return storageRef.child(`QR/${cylinderID}.jpg`).getDownloadURL();
   }
+
+  getPrescriptionLink = async (fileName) => {
+    const storageRef = firebase.storage().ref();
+
+    return storageRef.child(`Receipt/${fileName}`).getDownloadURL();
+  }
 }

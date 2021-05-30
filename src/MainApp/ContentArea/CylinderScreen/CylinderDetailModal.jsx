@@ -136,7 +136,7 @@ export default ({
         Cylinder Details
       </CustomDialogTitle>
       <DialogContent>
-        <a hidden ref={aRef} href={url} download={`QR-${cylinder.cylinder_id}.jpg`} target="_blank" rel="noreferrer">Hello</a>
+        <a hidden ref={aRef} href={url} download={`QR-${cylinder.cylinder_id}.jpg`} target="_blank" rel="noreferrer">Download</a>
         <Typography color="primary" variant="subtitle2">
           Cylinder ID
         </Typography>

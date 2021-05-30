@@ -4,7 +4,7 @@ const initialDataState = {
   cylinders: {},
   users: {},
   citizens: {},
-  roleCylindersMapping: {},
+  roleCylindersMapping: null,
 };
 
 const data_reducer = (state = initialDataState, action) => {
