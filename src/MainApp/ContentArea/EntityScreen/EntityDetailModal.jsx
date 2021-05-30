@@ -29,16 +29,26 @@ export default ({
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
   const classes = useStyles();
-  const [openChangeDialog, setOpenChangeDialog] = React.useState(false);
+  const [openChangeDialog, setOpenChangeDialog] = React.useState(0);
 
   const switchAccess = (newValue) => async () => {
-    if (newValue !== entity.canExit) {
-      await databaseHandler.changeCanExit(entity.phone, newValue);
-      setOpenChangeDialog(false);
-    } else {
-      setOpenChangeDialog(false);
+    if (openChangeDialog === 1) {
+      if (newValue !== entity.canExit) {
+        await databaseHandler.changeCanExit(entity.phone, newValue);
+        setOpenChangeDialog(0);
+      } else {
+        setOpenChangeDialog(0);
+      }
+    } else if (openChangeDialog === 2) {
+      if (newValue !== entity.canGenerateQR) {
+        await databaseHandler.changeCanGenerateQR(entity.phone, newValue);
+        setOpenChangeDialog(0);
+      } else {
+        setOpenChangeDialog(0);
+      }
     }
   };
+
   return (
     <>
       <Dialog
@@ -84,7 +94,17 @@ export default ({
             <Typography variant="body1" className={classes.text}>
               {entity.canExit ? 'Yes' : 'No'}
             </Typography>
-            <Button color="textSecondary" style={{ fontSize: 12, padding: '3px 4px' }} onClick={() => { setOpenChangeDialog(true); }}>Change</Button>
+            <Button color="textSecondary" style={{ fontSize: 12, padding: '3px 4px' }} onClick={() => { setOpenChangeDialog(1); }}>Change</Button>
+          </div>
+
+          <Typography className={classes.marginTop2} color="primary" variant="subtitle2">
+            Can generate new QR codes?
+          </Typography>
+          <div style={{ display: 'flex' }}>
+            <Typography variant="body1" className={classes.text}>
+              {entity.canGenerateQR ? 'Yes' : 'No'}
+            </Typography>
+            <Button color="textSecondary" style={{ fontSize: 12, padding: '3px 4px' }} onClick={() => { setOpenChangeDialog(2); }}>Change</Button>
           </div>
 
           <Typography className={classes.marginTop2} color="primary" variant="subtitle2">
@@ -96,9 +116,12 @@ export default ({
         </DialogContent>
       </Dialog>
 
-      <Dialog open={openChangeDialog} onClose={() => setOpenChangeDialog(false)} maxWidth="xs">
+      <Dialog open={openChangeDialog} onClose={() => setOpenChangeDialog(0)} maxWidth="xs">
         <DialogContent>
-          {`Should ${entity.name} be allowed to exit cylinders?`}
+          {openChangeDialog === 1
+            ? `Should ${entity.name} be allowed to exit cylinders?`
+            : `Should ${entity.name} be allowed to generate new QR?`}
+
         </DialogContent>
         <DialogActions>
           <Button onClick={switchAccess(false)} color="primary">

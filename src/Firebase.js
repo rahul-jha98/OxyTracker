@@ -105,10 +105,10 @@ export default class Firebase {
     return storageRef.child(`Receipt/${fileName}`).getDownloadURL();
   }
 
-  changeCanExit = async (phone, canExit) => {
+  changeField = async (phone, obj) => {
     await firebase.firestore()
       .collection('users')
       .doc(phone)
-      .update({ canExit });
+      .update(obj);
   }
 }

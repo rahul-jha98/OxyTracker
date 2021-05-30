@@ -166,7 +166,12 @@ export default class Database {
   }
 
   changeCanExit = async (phone, canExit) => {
-    await this.firebaseHandler.changeCanExit(phone, canExit);
+    await this.firebaseHandler.changeField(phone, { canExit });
+    this.refetch();
+  }
+
+  changeCanGenerateQR = async (phone, canGenerateQR) => {
+    await this.firebaseHandler.changeField(phone, { canGenerateQR });
     this.refetch();
   }
 }

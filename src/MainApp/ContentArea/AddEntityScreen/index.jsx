@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const defaultEntityState = {
-  phoneNo: '', name: '', role: '', canExit: false,
+  phoneNo: '', name: '', role: '', canExit: false, canGenerateQR: false,
 };
 
 const roles = [
@@ -155,6 +155,17 @@ export default ({ firebaseHandler, showToast }) => {
           name="Can Exit"
           color="primary"
           inputProps={{ 'aria-label': 'can exit checkbox' }}
+        />
+      </div>
+
+      <div style={{ display: 'flex', alignItems: 'center' }} className={classes.marginTop2}>
+        <Typography style={{ flex: 1 }}>Can generate new QR codes?</Typography>
+        <Checkbox
+          checked={entity.canGenerateQR}
+          onChange={(ev) => setEntity({ ...entity, canGenerateQR: ev.target.checked })}
+          name="Can Generate"
+          color="primary"
+          inputProps={{ 'aria-label': 'can generate checkbox' }}
         />
       </div>
 
