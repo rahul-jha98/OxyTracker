@@ -102,7 +102,7 @@ export default ({ open, toggleOpen }) => {
           variant="outlined"
           value={entity.email}
           fullWidth
-          placeholder="GMail account ID"
+          placeholder="Gmail account ID"
           onChange={onTextChange('email')}
           disabled={isDisabled}
           error={Boolean(mailError)}

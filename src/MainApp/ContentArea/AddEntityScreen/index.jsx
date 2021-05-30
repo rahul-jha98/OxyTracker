@@ -97,7 +97,9 @@ export default ({ firebaseHandler, showToast }) => {
   return (
     <div style={{ width: '40%', minWidth: 300, margin: 'auto' }}>
       <img src={AddUser} alt="user" width="60%" style={{ margin: '16px 20%' }} />
-      <Typography>Kuch text jisme batana hai ki yeh phone number se mobiel login hoga</Typography>
+      <Typography>
+        Phone No. provided below will be used for authentication in the app
+      </Typography>
       <TextField
         className={classes.marginTop2}
         id="phoneno"
