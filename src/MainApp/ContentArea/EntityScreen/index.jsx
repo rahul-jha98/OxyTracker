@@ -17,7 +17,6 @@ export default ({ users, databaseHandler }) => {
   const [selectedEntity, setSelectedEntity] = React.useState('');
 
   React.useEffect(() => {
-    console.log(users);
     setData(Object.values(users));
   }, [users]);
 

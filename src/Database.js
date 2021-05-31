@@ -166,4 +166,9 @@ export default class Database {
     await this.firebaseHandler.changeField(name, { canGenerateQR });
     this.refetch();
   }
+
+  changePassword = async (name, password) => {
+    await this.firebaseHandler.changeField(name, { password });
+    this.refetch();
+  }
 }
