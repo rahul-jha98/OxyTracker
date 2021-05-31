@@ -29,15 +29,32 @@ export default ({ firebaseHandler, showToast }) => {
   const classes = useStyles();
   const [entity, setEntity] = React.useState(defaultEntityState);
   const [nameError, setNameError] = React.useState('');
+  const [passwordError, setPasswordError] = React.useState(false);
   const [isDisabled, setIsDisabled] = React.useState(false);
 
   const onTextChange = (propName) => (event) => {
     setEntity({ ...entity, [propName]: event.target.value });
   };
 
+  const getRandomPassword = () => {
+    let key = '';
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    for (let i = 0; i < 3; i += 1) {
+      key += chars.charAt(Math.floor(Math.random() * 26));
+    }
+
+    const nums = '0123456789';
+    for (let i = 0; i < 3; i += 1) {
+      key += nums.charAt(Math.floor(Math.random() * 10));
+    }
+
+    return key;
+  };
   useEffect(() => {
-    setEntity(defaultEntityState);
+    setEntity({ ...defaultEntityState, password: getRandomPassword() });
     setIsDisabled(false);
+    setNameError(false);
+    setPasswordError(false);
   }, []);
 
   const onSubmit = async () => {
@@ -47,6 +64,13 @@ export default ({ firebaseHandler, showToast }) => {
       error = true;
     } else {
       setNameError('');
+    }
+
+    if (entity.password === '') {
+      setPasswordError('Password cannot be empty');
+      error = true;
+    } else {
+      setPasswordError('');
     }
 
     if (!error) {
@@ -61,7 +85,7 @@ export default ({ firebaseHandler, showToast }) => {
         await firebaseHandler.addUser(name, entity);
         setIsDisabled(false);
         showToast(`${name} has been added to the database`);
-        setEntity(defaultEntityState);
+        setEntity({ ...defaultEntityState, password: getRandomPassword() });
       }
     }
   };
@@ -80,6 +104,19 @@ export default ({ firebaseHandler, showToast }) => {
         disabled={isDisabled}
         error={Boolean(nameError)}
         helperText={nameError}
+      />
+
+      <TextField
+        className={classes.marginTop4}
+        id="name"
+        label="Password"
+        variant="outlined"
+        fullWidth
+        value={entity.password}
+        onChange={onTextChange('password')}
+        disabled={isDisabled}
+        error={Boolean(passwordError)}
+        helperText={passwordError}
       />
 
       <div style={{ display: 'flex', alignItems: 'center' }} className={classes.marginTop2}>
