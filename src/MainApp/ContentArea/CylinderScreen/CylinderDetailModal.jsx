@@ -86,6 +86,7 @@ export default ({
   const aRef = React.useRef();
 
   const downloadQR = async () => {
+    showToast('Downloading QR...');
     try {
       const qrUrl = await firebaseHandler.getQRDownloadLink(cylinder.cylinder_id);
       const xhr = new XMLHttpRequest();

@@ -47,7 +47,7 @@ export default ({
       switch (err.code) {
         case 'storage/object-not-found':
           // File doesn't exist
-          showToast("The Prescription file doesn't exist");
+          showToast("The prescription file doesn't exist");
           break;
         case 'storage/unauthorized':
           // User doesn't have permission to access the object
