@@ -26,7 +26,7 @@ export default class Firebase {
       if (doesExist) {
         this.onSignInChanged(user);
       } else {
-        this.onSignInFailed('Contact authority, not a registered admin');
+        this.onSignInFailed('You are not a registered admin.');
         firebase.auth().signOut();
       }
       return null;

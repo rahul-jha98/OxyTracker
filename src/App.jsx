@@ -93,6 +93,9 @@ class App extends React.Component {
       (errorMessage) => {
         // error maybe due to user not having access, network error etc
         this.setState({ toast: errorMessage });
+        setTimeout(() => {
+          window.location.reload();
+        }, 6000);
       },
     );
   }
