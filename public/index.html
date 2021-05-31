@@ -2,33 +2,76 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#FF6863" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#FF6863">
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+
+    <title>OxyTracker - Admin Portal</title>
     <meta
       name="description"
-      content="Web site created using create-react-app"
+      content="Admin portal to monitor and track the distribution of cylinders"
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
+    <style>
+      .fullScreenWrapper {
+        display: flex;
+        flex-direction: column;
+        height: 98vh;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root">
+      <div class="fullScreenWrapper">
+        <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <style>.Line_6_345 {
+            animation: 1.6s linear 0s infinite normal forwards running Line_6_345;
+            transform-box: fill-box;
+            transform-origin: 50% 50%;
+            transform: translateX(0px) translateY(47.46px);
+          }
+          @keyframes Line_6_345 {
+            0% {
+              transform: translateX(0px) translateY(2px);
+            }
+            50% {
+              transform: translateX(0px) translateY(60px);
+            }
+            100% {
+              transform: translateX(0px) translateY(2px);
+            }
+          }
+          </style><g clip-path="url(#clip_0_576)"><g transform="translate(0 0)"><g transform="translate(10 6)">
+          <path d="M-3.05176e-05 32.0001H40V40.0001H-3.05176e-05V32.0001Z" fill="#DDDDDD" transform="translate(0 14)"/>
+          <path d="M-3.05176e-05 17.0001C-3.05176e-05 7.61122 7.61113 6.10352e-05 17 6.10352e-05H23C32.3888 6.10352e-05 40 7.61122 40 17.0001V23.0001C40 32.3889 32.3888 40.0001 23 40.0001H17C7.61113 40.0001 -3.05176e-05 32.3889 -3.05176e-05 23.0001V17.0001Z" fill="#DDDDDD" transform="translate(0 14)"/>
+          <path d="M11.1112 17.5239H9.25932V15.672H11.1112V17.5239ZM9.25932 11.0424H7.40747V15.672H9.25932V11.0424ZM16.6667 9.19053H14.8149V12.8942H16.6667V9.19053ZM14.8149 7.33868H12.963V9.19053H14.8149V7.33868ZM3.70377 9.19053H1.85191V11.0424H3.70377V9.19053ZM1.85191 7.33868H6.10352e-05V9.19053H1.85191V7.33868ZM8.33339 2.70905H10.1852V0.857193H8.33339V2.70905ZM1.38895 2.24608V5.02386H4.16673V2.24608H1.38895ZM5.55562 6.41275H6.10352e-05V0.857193H5.55562V6.41275ZM1.38895 13.3572V16.135H4.16673V13.3572H1.38895ZM5.55562 17.5239H6.10352e-05V11.9683H5.55562V17.5239ZM12.5001 2.24608V5.02386H15.2778V2.24608H12.5001ZM16.6667 6.41275H11.1112V0.857193H16.6667V6.41275ZM14.8149 15.672V12.8942H11.1112V14.7461H12.963V17.5239H16.6667V15.672H14.8149ZM12.963 9.19053H9.25932V11.0424H12.963V9.19053ZM9.25932 7.33868H3.70377V9.19053H5.55562V11.0424H7.40747V9.19053H9.25932V7.33868ZM10.1852 6.41275V4.5609H8.33339V2.70905H6.48154V6.41275H10.1852ZM3.47228 2.94053H2.08339V4.32942H3.47228V2.94053ZM3.47228 14.0516H2.08339V15.4405H3.47228V14.0516ZM14.5834 2.94053H13.1945V4.32942H14.5834V2.94053Z" fill="#AAAAAA" transform="translate(12 22.86)"/>
+          <path d="M1.00021 3.42853C1.00021 2.37656 1.89564 1.52377 3.00021 1.52377H11.0002C12.1048 1.52377 13.0002 2.37656 13.0002 3.42854V5.3333C13.0002 6.38527 12.1048 7.23806 11.0002 7.23806H3.00021C1.89564 7.23806 1.00021 6.38527 1.00021 5.3333V3.42853Z" fill="#DDDDDD" stroke="#BBBBBB" stroke-width="1.1" transform="translate(14 9.52)"/>
+          <path d="M4.00021 0.761905C4.00021 0.341117 4.35839 0 4.80021 0H7.20021C7.64204 0 8.00021 0.341116 8.00021 0.761905V8.7619C8.00021 9.18269 7.64204 9.52381 7.20021 9.52381H4.80021C4.35839 9.52381 4.00021 9.18269 4.00021 8.7619V0.761905Z" fill="#BBBBBB" transform="translate(14 0)"/>
+          <path d="M2.00021 3.80952H6.00021V5.71429H2.00021V3.80952Z" fill="#BBBBBB" transform="translate(14 0)"/>
+          <path d="M0.000213623 2.85714C0.000213623 2.33116 0.447929 1.90476 1.00021 1.90476C1.5525 1.90476 2.00021 2.33116 2.00021 2.85714V6.66667C2.00021 7.19265 1.5525 7.61905 1.00021 7.61905C0.447929 7.61905 0.000213623 7.19265 0.000213623 6.66667V2.85714Z" fill="#BBBBBB" transform="translate(14 0)"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M16 4.1429H24C31.0692 4.1429 36.8 10.9652 36.8 19.381V39H39.9999V87.99C40 87.9775 40 87.9649 40 87.9524V19.381C40 8.86128 32.8365 0.333374 24 0.333374H16C7.16341 0.333374 -3.05176e-05 8.86128 -3.05176e-05 19.381V39H3.19997V19.381C3.19997 10.9652 8.93072 4.1429 16 4.1429ZM15.9676 107C15.9784 107 15.9892 107 16 107H24C24.0108 107 24.0216 107 24.0323 107H15.9676Z" fill="#BBBBBB" transform="translate(0 13.33)"/></g><g transform="translate(0 0)">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M14.2857 6.10352e-05H0V5.71435H14.2857V6.10352e-05ZM20 6.10352e-05H14.2857V20.0001H20V6.10352e-05Z" fill="#AAAAAA" transform="translate(0 20) rotate(-90)"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M14.2858 0H0.000152588V5.71428H14.2858V0ZM20.0002 0H14.2859V20H20.0002V0Z" fill="#AAAAAA" transform="translate(20 60) rotate(-180)"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M14.2857 -6.10352e-05H0V5.71423H14.2857V-6.10352e-05ZM20 -6.10352e-05H14.2857V19.9999H20V-6.10352e-05Z" fill="#AAAAAA" transform="translate(60 40) rotate(90)"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M14.2855 0H-0.000152588V5.71429H14.2855V0ZM19.9998 0H14.2856V20H19.9998V0Z" fill="#AAAAAA" transform="translate(40 0)"/></g></g>
+          <line y1="1.4575" x2="60" y2="1.4575" stroke="#AAAAAA" stroke-width="2" class="Line_6_345"/></g>
+          <defs><clipPath id="clip_0_576"><rect width="60" height="60"/></clipPath>
+          </defs>
+          </svg>
+      </div>
+    </div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
