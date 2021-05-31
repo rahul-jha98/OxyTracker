@@ -10,10 +10,10 @@ import CylinderScreen from './CylinderScreen';
 import ApiHandlerContext from '../../provider/ApiHandlerContext';
 
 const ContentArea = ({
-  selectedTab, cylinders, users, citizens, roleCylindersMapping,
+  selectedTab, cylinders, users, citizens,
 }) => {
   const { firebaseHandler, showToast, databaseHandler } = React.useContext(ApiHandlerContext);
-  if (roleCylindersMapping === null) {
+  if (users === null) {
     return (
       <div style={{ width: '100%', textAlign: 'center', margin: 32 }}>
         <CircularProgress />
@@ -24,8 +24,9 @@ const ContentArea = ({
     return (
       <CylinderScreen
         cylinders={cylinders}
+        users={users}
+        citizens={citizens}
         firebaseHandler={firebaseHandler}
-        roleCylindersMapping={roleCylindersMapping}
         databaseHandler={databaseHandler}
         showToast={showToast}
       />
@@ -53,7 +54,6 @@ const mapStateToProps = (state) => ({
   cylinders: state.cylinders,
   users: state.users,
   citizens: state.citizens,
-  roleCylindersMapping: state.roleCylindersMapping,
 });
 
 export default connect(mapStateToProps)(ContentArea);

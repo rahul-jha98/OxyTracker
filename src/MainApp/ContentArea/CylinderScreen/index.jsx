@@ -13,23 +13,20 @@ const cells = [
     id: 'name', numeric: false, disablePadding: false, label: 'Name',
   },
   {
-    id: 'phone', numeric: false, disablePadding: false, label: 'Mobile No',
-  },
-  {
     id: 'date', numeric: false, disablePadding: false, label: 'Last Updated',
   },
 ];
 const heading = 'Cylinder Distribution Graph';
-const convertRoleCylinderData = (roleCylindersMapping) => ({
-  labels: Object.keys(roleCylindersMapping),
+const convertRoleCylinderData = (cylinderData, citizens) => ({
+  labels: [...Object.keys(cylinderData), 'Citizens'],
   datasets: [
     {
       label: 'Cylinders',
       backgroundColor: '#FECFCE',
       borderColor: '#FF6863',
       borderWidth: 2,
-      data: Object.values(roleCylindersMapping),
-
+      data: [...Object.values(cylinderData).map((data) => data.cylinderCount),
+        Object.keys(citizens).length],
     },
   ],
 });
@@ -46,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default ({
-  cylinders, roleCylindersMapping, databaseHandler, firebaseHandler, showToast,
+  cylinders, users, citizens, databaseHandler, firebaseHandler, showToast,
 }) => {
   const classes = useStyles();
   const [data, setData] = React.useState([]);
@@ -60,13 +57,13 @@ export default ({
   }, [cylinders]);
 
   React.useEffect(() => {
-    const roleCylinderData = convertRoleCylinderData(roleCylindersMapping);
+    const userCylinderData = convertRoleCylinderData(users, citizens);
     setAnimate(true);
-    setRoleCylinderMapping(roleCylinderData);
+    setRoleCylinderMapping(userCylinderData);
     setTimeout(() => {
       setAnimate(false);
     }, 1400);
-  }, [roleCylindersMapping]);
+  }, [users, citizens]);
 
   const setDialogOpen = (val) => {
     if (val) {

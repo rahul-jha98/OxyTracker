@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const defaultEntityState = {
-  name: '', canExit: false, canGenerateQR: false,
+  name: '', canExit: false, canGenerateQR: false, cylinders: [],
 };
 
 export default ({ firebaseHandler, showToast }) => {
@@ -75,8 +75,7 @@ export default ({ firebaseHandler, showToast }) => {
 
     if (!error) {
       setIsDisabled(true);
-      const { name, ...payload } = entity;
-      payload.cylinders = [];
+      const { name } = entity;
       const doesUserExist = await firebaseHandler.checkIfUserExist(name);
       if (doesUserExist) {
         setNameError('User with given name already exists');

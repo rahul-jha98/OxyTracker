@@ -30,6 +30,7 @@ export default ({
 
   const classes = useStyles();
   const [openChangeDialog, setOpenChangeDialog] = React.useState(0);
+  const [openPasswordDialog, setOpenPasswordDialog] = React.useState(false);
 
   const switchAccess = (newValue) => async () => {
     if (openChangeDialog === 1) {
@@ -64,20 +65,10 @@ export default ({
         </DialogTitle>
         <DialogContent>
           <Typography color="primary" variant="subtitle2">
-            Details
+            Name
           </Typography>
           <Typography variant="body1">
             {entity.name}
-          </Typography>
-          <Typography variant="body2" gutterBottom>
-            {entity.role}
-          </Typography>
-
-          <Typography className={classes.marginTop2} color="primary" variant="subtitle2">
-            Mobile Number
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            {entity.phone}
           </Typography>
 
           <Typography className={classes.marginTop2} color="primary" variant="subtitle2">
@@ -108,11 +99,14 @@ export default ({
           </div>
 
           <Typography className={classes.marginTop2} color="primary" variant="subtitle2">
-            Added By
+            Password
           </Typography>
-          <Typography variant="body1" gutterBottom>
-            {entity.adder_admin || '-'}
-          </Typography>
+          <div style={{ display: 'flex' }}>
+            <Typography variant="body1" className={classes.text}>
+              {entity.password}
+            </Typography>
+            <Button color="textSecondary" style={{ fontSize: 12, padding: '3px 4px' }} onClick={() => { setOpenPasswordDialog(true); }}>Change</Button>
+          </div>
         </DialogContent>
       </Dialog>
 
@@ -129,6 +123,21 @@ export default ({
           </Button>
           <Button onClick={switchAccess(true)} color="primary" autoFocus>
             Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={openPasswordDialog} onClose={() => { setOpenPasswordDialog(false); }} maxWidth="xs">
+        <DialogTitle>
+          Update Password
+        </DialogTitle>
+        <DialogContent />
+        <DialogActions>
+          <Button onClick={() => { setOpenPasswordDialog(false); }} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={() => { setOpenPasswordDialog(false); }} color="primary" autoFocus>
+            Update
           </Button>
         </DialogActions>
       </Dialog>

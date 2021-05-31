@@ -1,10 +1,9 @@
 import * as actionTypes from '../actions/types';
 
 const initialDataState = {
-  cylinders: {},
-  users: {},
-  citizens: {},
-  roleCylindersMapping: null,
+  cylinders: null,
+  users: null,
+  citizens: null,
 };
 
 const data_reducer = (state = initialDataState, action) => {
