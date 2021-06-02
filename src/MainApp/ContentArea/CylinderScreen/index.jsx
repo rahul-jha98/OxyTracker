@@ -18,7 +18,7 @@ const cells = [
 ];
 const heading = 'Cylinder Distribution Graph';
 const convertRoleCylinderData = (cylinderData, citizens) => ({
-  labels: [...Object.keys(cylinderData), 'Citizens'],
+  labels: [...Object.values(cylinderData).map((data) => data.name), 'Citizens'],
   datasets: [
     {
       label: 'Cylinders',
