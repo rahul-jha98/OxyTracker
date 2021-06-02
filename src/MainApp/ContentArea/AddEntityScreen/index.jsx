@@ -22,39 +22,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const defaultEntityState = {
-  name: '', canExit: false, canGenerateQR: false, cylinders: [],
+  name: '', canExit: false, canGenerateQR: false, cylinders: [], email: '',
 };
 
 export default ({ firebaseHandler, showToast }) => {
   const classes = useStyles();
   const [entity, setEntity] = React.useState(defaultEntityState);
+  const [emailError, setEmailError] = React.useState('');
   const [nameError, setNameError] = React.useState('');
-  const [passwordError, setPasswordError] = React.useState(false);
   const [isDisabled, setIsDisabled] = React.useState(false);
 
   const onTextChange = (propName) => (event) => {
     setEntity({ ...entity, [propName]: event.target.value });
   };
-
-  const getRandomPassword = () => {
-    let key = '';
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    for (let i = 0; i < 3; i += 1) {
-      key += chars.charAt(Math.floor(Math.random() * 26));
-    }
-
-    const nums = '0123456789';
-    for (let i = 0; i < 3; i += 1) {
-      key += nums.charAt(Math.floor(Math.random() * 10));
-    }
-
-    return key;
-  };
   useEffect(() => {
-    setEntity({ ...defaultEntityState, password: getRandomPassword() });
+    setEntity(defaultEntityState);
     setIsDisabled(false);
-    setNameError(false);
-    setPasswordError(false);
+    setNameError('');
+    setEmailError('');
   }, []);
 
   const onSubmit = async () => {
@@ -66,25 +51,24 @@ export default ({ firebaseHandler, showToast }) => {
       setNameError('');
     }
 
-    if (entity.password === '') {
-      setPasswordError('Password cannot be empty');
+    if (entity.email === '') {
+      setEmailError('Email cannot be empty');
       error = true;
     } else {
-      setPasswordError('');
+      setEmailError('');
     }
 
     if (!error) {
       setIsDisabled(true);
-      const { name } = entity;
-      const doesUserExist = await firebaseHandler.checkIfUserExist(name);
+      const { email, ...payload } = entity;
+      const doesUserExist = await firebaseHandler.checkIfUserExist(email);
       if (doesUserExist) {
         setNameError('User with given name already exists');
         setIsDisabled(false);
       } else {
-        await firebaseHandler.addUser(name, entity);
+        await firebaseHandler.addUser(email, payload);
         setIsDisabled(false);
-        showToast(`${name} has been added to the database`);
-        setEntity({ ...defaultEntityState, password: getRandomPassword() });
+        showToast(`${email} has been added to the database`);
       }
     }
   };
@@ -92,6 +76,20 @@ export default ({ firebaseHandler, showToast }) => {
   return (
     <div style={{ width: '40%', minWidth: 300, margin: 'auto' }}>
       <img src={AddUser} alt="user" width="60%" style={{ margin: '16px 20%' }} />
+      <TextField
+        id="email"
+        label="GMail Account"
+        variant="outlined"
+        value={entity.email}
+        fullWidth
+        placeholder="Gmail account ID"
+        onChange={onTextChange('email')}
+        disabled={isDisabled}
+        error={Boolean(emailError)}
+        helperText={emailError}
+        type="email"
+      />
+
       <TextField
         className={classes.marginTop4}
         id="name"
@@ -103,19 +101,6 @@ export default ({ firebaseHandler, showToast }) => {
         disabled={isDisabled}
         error={Boolean(nameError)}
         helperText={nameError}
-      />
-
-      <TextField
-        className={classes.marginTop4}
-        id="name"
-        label="Password"
-        variant="outlined"
-        fullWidth
-        value={entity.password}
-        onChange={onTextChange('password')}
-        disabled={isDisabled}
-        error={Boolean(passwordError)}
-        helperText={passwordError}
       />
 
       <div style={{ display: 'flex', alignItems: 'center' }} className={classes.marginTop2}>

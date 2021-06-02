@@ -93,8 +93,8 @@ export default class Database {
   prepareUserTableData = (users) => {
     const usersList = {};
 
-    users.forEach((data, name) => {
-      usersList[name] = { ...data, cylinderCount: data.cylinders.length };
+    users.forEach((data, email) => {
+      usersList[email] = { ...data, email, cylinderCount: data.cylinders.length };
     });
     return usersList;
   }
@@ -164,11 +164,6 @@ export default class Database {
 
   changeCanGenerateQR = async (name, canGenerateQR) => {
     await this.firebaseHandler.changeField(name, { canGenerateQR });
-    this.refetch();
-  }
-
-  changePassword = async (name, password) => {
-    await this.firebaseHandler.changeField(name, { password });
     this.refetch();
   }
 }

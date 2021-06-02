@@ -46,7 +46,7 @@ export default ({ users, databaseHandler }) => {
       <Table
         rowArray={data}
         headCells={cells}
-        rowID="name"
+        rowID="email"
         onRowClicked={onRowClicked}
       />
       <DetailModal
