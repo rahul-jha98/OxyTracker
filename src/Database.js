@@ -77,7 +77,7 @@ export default class Database {
       } else {
         const { name, role } = users.get(data.current_owner) || { role: ' ' };
         entity = {
-          name, role, owner: { name, role, phone: data.current_owner }, phone: data.current_owner,
+          name, role, owner: { name, role },
         };
       }
       const dateObj = data.timestamp.toDate();
@@ -143,7 +143,7 @@ export default class Database {
       } else {
         const { name, role } = this.userMapping[history.current_owner] || {};
         entity = {
-          name, role, owner: { name, role, phone: history.current_owner },
+          name, role, owner: { name, role },
         };
       }
       const dateObj = history.timestamp.toDate();
