@@ -104,6 +104,13 @@ export default ({
             <Button color="textSecondary" style={{ fontSize: 12, padding: '3px 4px' }} onClick={() => { setOpenChangeDialog(2); }}>Change</Button>
           </div>
 
+          <Typography className={classes.marginTop2} color="primary" variant="subtitle2">
+            Added By
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            {entity.adder_admin}
+          </Typography>
+
         </DialogContent>
       </Dialog>
 
