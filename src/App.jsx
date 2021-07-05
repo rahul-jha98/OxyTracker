@@ -20,10 +20,10 @@ import { setDataSource } from './actions';
 import Logo from './Logo.svg';
 
 firebase.initializeApp({
-  apiKey: 'AIzaSyCbGWlv_6igZpLGLQLGx5wKr1Ufd6Lv0ZI',
-  authDomain: 'o2-tracker.firebaseapp.com',
-  storageBucket: 'gs://o2-tracker.appspot.com',
-  projectId: 'o2-tracker',
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  projectId: process.env.REACT_APP_PROJECT_ID,
 });
 
 const theme = createMuiTheme({
